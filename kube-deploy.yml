@@ -1,0 +1,56 @@
+
+   apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bmp-login-service
+  namespace: dev-test
+  labels:
+    app: login-service
+    version: latest
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: login-service
+      version: latest
+  template:
+    metadata:
+      name: bmp-login-service
+      labels:
+        app: login-service
+        version: latest
+    spec:
+      containers:
+      - name: bmp-login-service
+        image: image_version
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "500Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: nexus
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: dev-test
+  name: bmp-login-service
+  labels:
+    app: login-service
+    version: latest
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 32248
+  selector:
+    app: login-service
+    version: latest
