@@ -19,7 +19,7 @@ agent any;
     stage("Docker IMAGE Push to Nexus") {
       steps {
         withCredentials([string(credentialsId: 'nexus-docker', variable: 'nexus-pwd')]) {
-        sh "docker login -u admin -p ${nexus-pwd} http://3.219.34.33:8082"
+        sh "docker login -u admin -p $nexus-pwd http://3.219.34.33:8082"
         sh "docker tag ${IMAGE} 3.219.34.33:8082/${IMAGE}"
         sh "docker push 3.219.34.33:8082/${IMAGE}"
       }
