@@ -29,10 +29,9 @@ stage("Deploy to k8s") {
     steps{
         sh "chmod 777 imageversion.sh"
         sh "./imageversion.sh ${IMAGE}"
-    sshagent(['jenkins_login']) {
-    sh "ssh -o StrictHostKeyChecking=no ubuntu@54.221.96.157 kubectl get pods -n dev-test | grep jenkins > jenkinspods"
-    sh "ssh -o StrictHostKeyChecking=no ubuntu@54.221.96.157  "
-}
+   withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'dev-rancher', namespace: '', serverUrl: 'https://10.0.5.35:6443') {
+        sh "kubectl delete -f dev-deploy.yml"	
+        sh "kubectl apply -f dev-deploy.yml"	
   }
 }
 }
