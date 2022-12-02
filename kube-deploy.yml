@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: bmp-login-service
-        image: image_version
+        image: 34.227.197.4:8082/image_version
         imagePullPolicy: Always
         resources:
           requests:
