@@ -8,7 +8,7 @@ metadata:
 spec:
   containers:
   - name: loginform
-    image: mohammadaszadali/loginform
+    image: image_version
     ports:
     - containerPort: 80
 ---
