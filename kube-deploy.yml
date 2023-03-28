@@ -1,29 +1,44 @@
 apiVersion: v1
-kind: Pod
-metadata: 
-  namespace: ui
-  name: loginform
+kind: ReplicationController  # ReplicationController config starts
+metadata:
+  namespace: dev-test
+  name: bmp-login-form
   labels:
-    app: loginform
+    app: bmp-login-form
+    version: latest
 spec:
-  containers:
-  - name: loginform
-    image: image_version
-    ports:
-    - containerPort: 80
+  replicas: 1
+  selector:
+    app: bmp-login-form
+    version: latest
+  template:  # pod config starts
+    metadata:
+      name: bmp-login-form
+      labels:
+        app: bmp-login-form
+        version: latest
+    spec:
+      containers:
+      - image: image-version
+        name: bmp-login-form
+        ports:
+        - containerPort: 80
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: ui
-  name: loginform-service
+  namespace: dev-test
+  name: bmp-login-form-svc
   labels:
-    app: nginx
+    app: bmp-login-form
+    version: latest
 spec:
   type: NodePort
   ports:
-  - port: 18
+  - port: 80
     targetPort: 80
-    nodePort: 32765
+    nodePort: 32000
   selector:
-    app: loginform
+    app: bmp-login-form
+    version: latest
