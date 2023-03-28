@@ -19,7 +19,7 @@ spec:
         version: latest
     spec:
       containers:
-      - image: image-version
+      - image: mohammadsazadali/image-version
         name: bmp-login-form
         ports:
         - containerPort: 80
